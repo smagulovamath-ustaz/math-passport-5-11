@@ -1,0 +1,239 @@
+<!doctype html><html lang="kk"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Математикалық паспорт 5–11</title><style>
+:root{font-family:system-ui,Arial,sans-serif;color:#123147;background:#edf5f5}*{box-sizing:border-box}body{margin:0}header{background:linear-gradient(120deg,#103b4b,#176d70);color:white;padding:25px 5%}h1{margin:0;font-size:clamp(25px,4vw,40px)}header p{opacity:.85}.wrap{max-width:1100px;margin:auto;padding:24px 15px}.panel{background:white;border-radius:18px;padding:24px;margin-bottom:18px;box-shadow:0 5px 18px #163e4a12}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}button,select,input{font:inherit}button{border:0;border-radius:10px;padding:12px 16px;background:#116c76;color:white;cursor:pointer}button:hover{filter:brightness(1.08)}button.secondary{background:#e6f0f2;color:#123d4a}.tabs button.active{background:#f4b94c;color:#172e3a}input,select{padding:11px;border:1px solid #b6ccd1;border-radius:9px;width:100%;margin:6px 0 12px}label{font-weight:600}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.tile{border:1px solid #d6e5e7;border-radius:14px;padding:16px;background:#f9fcfc}.tile h3{margin:0 0 8px}.muted{color:#617985}.hidden{display:none!important}.question{border:1px solid #dbe7e8;border-radius:14px;padding:16px;margin:12px 0}.options label{display:block;padding:8px;margin:5px 0;border-radius:7px;background:#f2f8f8;font-weight:400}.options input{width:auto;margin-right:10px}.result{border-left:5px solid #e5ac36;background:#fff9e9;padding:14px;border-radius:9px;margin:14px 0}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid #dce7e9;padding:10px;text-align:left}th{background:#e8f2f4}.pill{display:inline-block;background:#e5f5ed;color:#176a49;padding:5px 10px;border-radius:99px;font-size:13px}footer{text-align:center;color:#72868b;padding:30px}.warning{color:#825500;background:#fff4d9;padding:12px;border-radius:10px}#answerBox{white-space:pre-wrap} @media(max-width:600px){.panel{padding:16px}table{font-size:12px}td,th{padding:6px}}</style></head><body><header><h1>∑ МАТЕМАТИКАЛЫҚ ПАСПОРТ 5–11</h1><p>Смагулова Ардак Турлыбековна · математика пәні мұғалімі, педагог-сарапшы</p></header><main class="wrap"><div class="tabs"><button class="active" onclick="tab('home',this)">Басты бет</button><button onclick="tab('student',this)">Оқушы кабинеті</button><button onclick="tab('teacher',this)">Мұғалім кабинеті</button></div>
+<section id="home" class="panel"><h2>Бір платформа — үш білім бағыты</h2><div class="grid"><div class="tile"><h3>📋 Математика: білімдегі олқылықтарды толықтырамыз</h3><p>5–11-сыныптарға арналған диагностикалық тапсырмалар және білімді бекіту.</p></div><div class="tile"><h3>📘 Математикалық сауаттылық — Ардақ ұстазбен бірге</h3><p>Күнделікті өмірмен байланысты есептер, шешу жолдары және түсіндірмелер.</p></div><div class="tile"><h3>🏅 Математикалық паспорт</h3><p>11-сыныпқа арналған ҰБТ үлгісіндегі тапсырмалар, жетістік пен жеке прогресс.</p></div></div><p class="warning">Бұл — жаңа сайттың алғашқы жұмыс істейтін үлгісі. Есептер демонстрациялық, бұрынғы сайттардан автоматты көшірілмеген.</p><button onclick="tab('student',document.querySelectorAll('.tabs button')[1])">Оқуды бастау →</button></section>
+<section id="student" class="panel hidden"><h2>Оқушы кабинеті</h2><div class="grid"><div><label>Аты-жөнің</label><input id="studentName" placeholder="Мысалы: Айдана Ерланқызы"></div><div><label>Сыныбың</label><select id="grade"></select></div></div><label>Бағыт</label><select id="course"><option value="diagnostic">Білімдегі олқылықтарды анықтау</option><option value="literacy">Математикалық сауаттылық</option><option value="passport">Математикалық паспорт — 11-сынып</option></select><label>Тақырып</label><select id="topicSelect"><option value="all">Барлық тақырыптар</option></select><label>Тапсырма деңгейі</label><select id="level"><option value="easy">Жеңіл деңгей — 6 есеп</option><option value="medium">Орташа деңгей — 6 есеп</option><option value="hard">Күрделі деңгей — 6 есеп</option><option value="all">Барлық деңгей — 18 есеп</option></select><button onclick="startQuiz()">Тапсырмаларды ашу</button><div id="quiz" class="hidden"><h3 id="quizTitle"></h3><div id="questions"></div><button onclick="submitQuiz()">Жауаптарды тексеру</button><div id="feedback"></div></div><div id="studentHistory"></div></section>
+<section id="teacher" class="panel hidden"><h2>Мұғалім кабинеті</h2><p class="muted">Оқушылардың ортақ серверге жіберілген нәтижелері осы кабинетте көрсетіледі.</p><label>Мұғалімнің құпиясөзі</label><input id="pin" type="password" placeholder="PIN"><button onclick="unlockTeacher()">Кіру</button><div id="teacherArea" class="hidden"><h3>Оқушылардың нәтижелері</h3><div id="stats"></div><h3>Қиындықтар картасы</h3><div id="weaknessReport"></div><div style="overflow:auto"><table><thead><tr><th>Оқушы</th><th>Сынып</th><th>Бағыт</th><th>Тақырып</th><th>Деңгей</th><th>Ұпай</th><th>Қиналған тақырып</th><th>Күні</th></tr></thead><tbody id="records"></tbody></table></div><p><button onclick="exportSharedCSV()">Нәтижені CSV жүктеу</button> <button class="secondary" onclick="refreshTeacher()">Жаңарту</button></p><p class="warning">Нәтижелер ортақ SQLite деректер базасында сақталады. Интернет арқылы пайдалану үшін HTTPS және серверлік орналастыру қажет.</p></div></section></main><footer>Математикалық паспорт · алғашқы прототип · 2026</footer><script>
+const DATA={diagnostic:{5:[['48 + 27 = ?',75,[65,75,85,95],'48+27=75'],['3/4 + 1/4 = ?',1,[1,2,3,4],'Бөлімдері бірдей: (3+1)/4=1'],['Тіктөртбұрыштың қабырғалары 6 см және 4 см. Ауданы?',24,[10,20,24,28],'S=6×4=24']],6:[['−7 + 12 = ?',5,[-19,-5,5,19],'−7+12=5'],['0,4 × 5 = ?',2,[0.2,2,20,200],'0,4×5=2'],['18 санының 1/3 бөлігі?',6,[3,6,9,12],'18÷3=6']],7:[['2x + 5 = 17. x = ?',6,[5,6,7,8],'2x=12, x=6'],['3² + 4² = ?',25,[7,12,25,49],'9+16=25'],['y=2x−1, x=4 болса y=?',7,[5,6,7,8],'y=8−1=7']],8:[['x²−5x+6=0 теңдеуінің түбірлерінің қосындысы?',5,[2,3,5,6],'Виет: x₁+x₂=5'],['√81 = ?',9,[8,9,10,81],'√81=9'],['(a+b)² формуласы?',0,['a²+b²','a²+2ab+b²','a²−2ab+b²','2a+2b'],'(a+b)²=a²+2ab+b²']],9:[['x²−9=0 теңдеуінің оң түбірі?',3,[3,-3,9,0],'x=±3, оң түбір 3'],['sin 30° = ?',0.5,[0,0.5,1,2],'sin 30°=1/2'],['Арифметикалық прогрессия: 2,5,8,... келесі мүшесі?',11,[9,10,11,12],'Айырымы 3; келесі 11']],10:[['log₂8 = ?',3,[2,3,4,8],'2³=8'],['2³ × 2² = ?',32,[16,24,32,64],'2⁵=32'],['sin²α + cos²α = ?',1,[0,1,2,4],'Негізгі тригонометриялық тепе-теңдік']],11:[['f(x)=2x−5 болса f(4)=?',3,[2,3,4,5],'2×4−5=3'],['√(x−2) анықталу шарты?',0,['x≥2','x≤2','x>0','Барлық x'],'Түбір астындағы өрнек теріс емес: x≥2'],['log₃27 = ?',3,[2,3,9,27],'3³=27']]},literacy:[['1200 теңгелік тауарға 25% жеңілдік жасалды. Жаңа бағасы?',900,[800,900,950,1000],'1200×0,75=900'],['5, 7, 7, 9, 12 сандарының модасы?',7,[5,7,9,12],'Ең жиі кездесетін сан — 7'],['Саяхатшы 60 км жолды 2 сағатта жүрді. Орташа жылдамдығы?',30,[20,30,40,60],'v=s/t=60/2=30 км/сағ']],passport:[['x²−7x+12=0 теңдеуінің түбірлерінің көбейтіндісі?',12,[7,12,-7,-12],'Виет теоремасы: x₁x₂=12'],['log₂16 = ?',4,[2,3,4,8],'2⁴=16'],['Туындысы: f(x)=x³, f′(2)=?',12,[6,8,12,16],'f′(x)=3x², f′(2)=12']]};let active=[];let currentName='',currentGrade='',currentCourse='';const titles={diagnostic:'Білімдегі олқылықтарды анықтау',literacy:'Математикалық сауаттылық',passport:'Математикалық паспорт'};for(let i=5;i<=11;i++)document.getElementById('grade').innerHTML+=`<option value="${i}">${i}-сынып</option>`;function tab(id,btn){for(const s of ['home','student','teacher'])document.getElementById(s).classList.toggle('hidden',s!==id);document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(id==='student')renderHistory()}function readRecords(){try{return JSON.parse(localStorage.getItem('mathPassportResults')||'[]')}catch{return []}}function startQuiz(){currentName=document.getElementById('studentName').value.trim();currentGrade=document.getElementById('grade').value;currentCourse=document.getElementById('course').value;if(!currentName){alert('Алдымен аты-жөніңізді енгізіңіз');return}if(currentCourse==='passport'&&currentGrade!=='11'){alert('Бұл бағыт 11-сыныпқа арналған. 11-сыныпты таңдаңыз.');return}active=buildQuestions(currentCourse,Number(currentGrade),document.getElementById('level').value);document.getElementById('quiz').classList.remove('hidden');document.getElementById('quizTitle').textContent=titles[currentCourse]+' · '+currentGrade+'-сынып · '+document.getElementById('level').selectedOptions[0].text;document.getElementById('feedback').innerHTML='';document.getElementById('questions').innerHTML=active.map((q,i)=>`<div class="question"><b>${i+1}. ${q[0]}</b><div class="options">${q[2].map((v,j)=>`<label><input type="radio" name="q${i}" value="${j}">${String.fromCharCode(65+j)}. ${v}</label>`).join('')}</div></div>`).join('');document.getElementById('quiz').scrollIntoView({behavior:'smooth'})}function submitQuiz(){let score=0;let html='';for(let i=0;i<active.length;i++){let checked=document.querySelector(`input[name="q${i}"]:checked`);if(!checked){alert('Барлық сұраққа жауап беріңіз');return}let q=active[i],ans=q[2][+checked.value],ok=String(ans)===String(q[1]);if(ok)score++;html+=`<p><b>${i+1}-сұрақ:</b> ${ok?'✅ Дұрыс':'❌ Қате'}. Дұрыс жауап: <b>${q[1]}</b><br>${q[3]}</p>`}let rows=readRecords();rows.push({name:currentName,grade:currentGrade,course:currentCourse,score,total:active.length,level:document.getElementById('level').value,date:new Date().toLocaleString('kk-KZ')});localStorage.setItem('mathPassportResults',JSON.stringify(rows));document.getElementById('feedback').innerHTML=`<div class="result"><h3>Нәтиже: ${score}/${active.length} (${Math.round(score/active.length*100)}%)</h3>${html}</div>`;renderHistory()}function renderHistory(){let name=document.getElementById('studentName').value.trim();let rows=readRecords().filter(r=>name&&r.name.toLowerCase()===name.toLowerCase());document.getElementById('studentHistory').innerHTML=rows.length?`<h3>Менің нәтижелерім</h3><p>${rows.map(r=>`<span class="pill">${titles[r.course]}: ${r.score}/${r.total}</span>`).join(' ')}</p>`:''}function unlockTeacher(){if(document.getElementById('pin').value!=='2026'){alert('PIN қате. Демонстрациялық PIN: 2026');return}document.getElementById('teacherArea').classList.remove('hidden');renderTeacher()}function renderTeacher(){let r=readRecords();document.getElementById('stats').innerHTML=`<p class="pill">Жазба: ${r.length}</p> <p class="pill">Оқушы: ${new Set(r.map(x=>x.name+'|'+x.grade)).size}</p>`;document.getElementById('records').innerHTML=r.length?r.slice().reverse().map(x=>`<tr><td>${escapeHtml(x.name)}</td><td>${x.grade}</td><td>${titles[x.course]}</td><td>${({easy:'Жеңіл',medium:'Орташа',hard:'Күрделі',all:'Барлығы'})[x.level]||'—'}</td><td>${x.score}/${x.total}</td><td>${escapeHtml(x.date)}</td></tr>`).join(''):'<tr><td colspan="6">Әзірше нәтиже жоқ</td></tr>'}function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function exportCSV(){let r=readRecords(),lines=[['Оқушы','Сынып','Бағыт','Деңгей','Дұрыс','Барлығы','Күні'],...r.map(x=>[x.name,x.grade,titles[x.course],x.level||'',x.score,x.total,x.date])];let csv='\ufeff'+lines.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='math_passport_results.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+
+// Әр деңгейге алты түрлі тапсырма. Сандар сынып пен деңгейге қарай өзгереді.
+function makeQ(question,answer,explanation){
+ const a=String(answer), choices=[a];
+ if(typeof answer==='number'){
+   for(const v of [answer+1,answer-1,answer+2,answer+3,answer-2,answer*2]){
+     if(choices.length===4)break;
+     if(!choices.includes(String(v)))choices.push(String(v));
+   }
+ }else{
+   for(const v of ['Мүмкін емес','0','1','2','3','4','x≥0','x≤0','Барлық нақты сандар']){
+     if(choices.length===4)break;
+     if(!choices.includes(v))choices.push(v);
+   }
+ }
+ // Әртүрлі орында дұрыс жауапты орналастыру.
+ const shift=question.length%4;
+ const ordered=choices.slice(shift).concat(choices.slice(0,shift));
+ return [question,a,ordered,explanation];
+}
+function buildQuestions(course,grade,level){
+ const levels=['easy','medium','hard'], bank={easy:[],medium:[],hard:[]};
+ const add=(lev,q,a,exp)=>bank[lev].push(makeQ(q,a,exp));
+ if(course==='diagnostic'){
+   const g=grade, k=g-4;
+   if(g<=6){
+     add('easy',`${30+k*3} + ${14+k} = ?`,44+4*k,'Екі санды қосамыз.');
+     add('easy',`${80+k*2} − ${21+k} = ?`,59+k,'Азайту амалын орындаймыз.');
+     add('easy',`${4+k} × 6 = ?`,(4+k)*6,'Көбейту кестесін қолданамыз.');
+     add('easy',`${(6+k)*4} : 4 = ?`,6+k,'Бөлу — көбейтуге кері амал.');
+     add('easy',`1/5 + 2/5 = ?`,'3/5','Бөлімдері бірдей бөлшектердің алымдарын қосамыз.');
+     add('easy',`Қабырғасы ${3+k} см шаршының периметрі?`,4*(3+k),'P=4a.');
+     add('medium',`${12+k} × 5 − 9 = ?`,(12+k)*5-9,'Алдымен көбейтеміз, содан соң азайтамыз.');
+     add('medium',`${(15+k)*3} : 3 + 8 = ?`,23+k,'Алдымен бөлеміз, кейін қосамыз.');
+     add('medium',`x + ${9+k} = ${23+k}. x=?`,14,'Белгісіз қосылғышты табу үшін азайтамыз.');
+     add('medium',`Тіктөртбұрыш: a=${7+k} см, b=5 см. Ауданы?`,(7+k)*5,'S=a·b.');
+     add('medium',`200 теңгенің 25%-ы неше теңге?`,50,'200·25/100=50.');
+     add('medium',`3/8 + 2/8 = ?`,'5/8','Бөлім өзгермейді, алымдар қосылады.');
+     add('hard',`3x + ${2+k} = ${23+k}. x=?`,7,'3x=21, x=7.');
+     add('hard',`Бір санның 3 есесіне 8 қоссақ 35 шығады. Сан?`,9,'3x+8=35, x=9.');
+     add('hard',`Қабырғалары ${8+k} см және 6 см тіктөртбұрыштың периметрі?`,2*(14+k),'P=2(a+b).');
+     add('hard',`240 теңгенің 15%-ы?`,36,'240·0,15=36.');
+     add('hard',`5/6 − 1/6 = ?`,'2/3','4/6=2/3.');
+     add('hard',`2·(${10+k}+5)−7=?`,2*(15+k)-7,'Жақшаны есептеп, 2-ге көбейтіп, 7-ні азайтамыз.');
+   }else{
+     const sets={
+      7:{easy:[['2x+5=17. x=?',6],['3²+4²=?',25],['y=2x−1, x=4. y=?',7],['(a+b)² формуласындағы ab коэффициенті?',2],['5x−10=0. x=?',2],['2³·2²=?',32]],medium:[['(x+3)(x+2) өрнегіндегі x коэффициенті?',5],['3x−7=11. x=?',6],['y=−2x+5, x=−1. y=?',7],['(a−b)², a=5, b=2. Мәні?',9],['2(x+4)=18. x=?',5],['(x+4)(x−4), x=5. Мәні?',9]],hard:[['(2x−3)(x+4), x=2. Мәні?',6],['x²−9 өрнегінің x=5 кезіндегі мәні?',16],['3(x−2)−2(x+1)=7. x=?',15],['y=3x−8, y=10. x=?',6],['(a+b)²−(a−b)², a=3,b=2. Мәні?',24],['2x²−3x+1, x=−2. Мәні?',15]]},
+      8:{easy:[['√81=?',9],['x²−5x+6=0. Түбірлер қосындысы?',5],['x²−7x+10=0. Түбірлер көбейтіндісі?',10],['√49+3=?',10],['x²=16. Оң түбірі?',4],['(x−2)(x−3)=0. Үлкен түбірі?',3]],medium:[['x²−9x+20=0. Кіші түбірі?',4],['2x²−10x+12=0. Түбірлер қосындысы?',5],['√(25·4)=?',10],['x²−6x+8=0. Түбірлер көбейтіндісі?',8],['x²−4x−5=0. Оң түбірі?',5],['y=x²−3x+2, x=4. y=?',6]],hard:[['2x²−3x−2=0. Түбірлер көбейтіндісі?',-1],['x²−11x+30=0. Үлкен түбірі?',6],['x²+2x−15=0. Теріс түбірі?',-5],['x²−8x+15=0. Түбірлер айырмасының модулі?',2],['3x²−12x+9=0. Түбірлер қосындысы?',4],['x²−10x+21=0. Түбірлер квадраттарының қосындысы?',58]]},
+      9:{easy:[['Арифметикалық прогрессия: 2,5,8,... келесі мүше?',11],['x²−9=0. Оң түбірі?',3],['sin30°=?',0.5],['2x−7>3. Ең кіші бүтін шешімі?',6],['Геометриялық прогрессия: 3,6,12,... келесі мүше?',24],['a₁=4,d=3. a₄=?',13]],medium:[['a₁=5,d=2. a₁₀=?',23],['b₁=2,q=3. b₄=?',54],['sin²30°+cos²30°=?',1],['x²−5x+6=0. Түбірлер көбейтіндісі?',6],['2x+3≤11. Ең үлкен бүтін шешімі?',4],['a₁=3,a₅=15. Прогрессия айырымы?',3]],hard:[['a₁=2,d=3. Алғашқы 10 мүшесінің қосындысы?',155],['b₁=3,q=2. Алғашқы 4 мүшесінің қосындысы?',45],['sin30°·cos60°=?',0.25],['x²−6x+8<0. Аралықтағы бүтін шешім?',3],['a₃=11,d=4. a₁=?',3],['b₂=12,q=3. b₄=?',108]]},
+      10:{easy:[['sin30°=?',0.5],['cos60°=?',0.5],['2⁴=?',16],['√121=?',11],['sin²α+cos²α=?',1],['f(x)=x², f(3)=?',9]],medium:[['sin30°+cos60°=?',1],['2³·2⁴=?',128],['cos0°=?',1],['sin90°=?',1],['f(x)=x²−4x, f(5)=?',5],['2sin30°+cos60°=?',1.5]],hard:[['2sin²30°+cos²60°=?',0.75],['sin30°·cos60°=?',0.25],['2⁵/2²=?',8],['f(x)=x²−6x+5, f(4)=?',-3],['sin²30°+sin²60°=?',1],['3cos60°−sin30°=?',1]]},
+      11:{easy:[['log₂8=?',3],['f(x)=x², f′(3)=?',6],['√144=?',12],['2³·2²=?',32],['log₃27=?',3],['f(x)=3x−4, f(5)=?',11]],medium:[['log₃81=?',4],['f(x)=x³, f′(2)=?',12],['x²−8x+15=0. Түбірлер көбейтіндісі?',15],['∫₀² 2x dx=?',4],['2ˣ=32. x=?',5],['f(x)=x²+2x, f(3)=?',15]],hard:[['f(x)=x³−2x, f′(3)=?',25],['log₂x=5. x=?',32],['∫₀² 3x² dx=?',8],['log₂16+log₃9=?',6],['f(x)=x⁴, f′(2)=?',32],['2ˣ=64. x=?',6]]}
+     };
+     const explanations={7:'7-сынып: теңдеулер, дәрежелер, көпмүшелер және функциялар.',8:'8-сынып: квадрат түбір, квадрат теңдеу, Виет теоремасы және квадраттық функция.',9:'9-сынып: прогрессиялар, тригонометрия элементтері және теңсіздіктер.',10:'10-сынып: тригонометрия, дәрежелер және функциялар.',11:'11-сынып: логарифм, туынды, интеграл және ҰБТ тапсырмалары.'};
+     for(const lev of levels)for(const [q,a] of sets[g][lev])add(lev,q,a,explanations[g]+' Дұрыс жауап: '+a+'.');
+
+   }
+ }else if(course==='literacy'){
+   const k=grade-5;
+   add('easy',`Бағасы ${1000+100*k} тг тауарға 10% жеңілдік жасалды. Жаңа баға?`,900+90*k,'Бастапқы бағаның 90%-ын табамыз.');
+   add('easy',`4, 6, 6, 8, 9 сандарының модасы?`,6,'Ең жиі кездесетін сан — 6.');
+   add('easy',`Автобус 120 км жолды 3 сағатта жүрді. Жылдамдық?`,40,'v=s/t=120/3.');
+   add('easy',`Бір дәптер 80 тг. 5 дәптер қанша тұрады?`,400,'80·5=400.');
+   add('easy',`Сыныпта 12 қыз, 13 ұл бар. Барлығы?`,25,'12+13=25.');
+   add('easy',`1 кг алма 600 тг. 2 кг бағасы?`,1200,'600·2=1200.');
+   add('medium',`2400 тг тауарға 25% жеңілдік. Төленетін сома?`,1800,'2400·0,75=1800.');
+   add('medium',`5, 7, 9, 11, 13 сандарының медианасы?`,9,'Реттелген қатардың ортаңғы саны 9.');
+   add('medium',`Машина 180 км жолды 3 сағатта жүрді. Орташа жылдамдық?`,60,'180/3=60 км/сағ.');
+   add('medium',`Баға 2000 тг-ден 2300 тг-ге өсті. Өсу пайызы?`,15,'300/2000·100%=15%.');
+   add('medium',`Тіктөртбұрышты бөлме 5 м × 4 м. Ауданы?`,20,'5·4=20 м².');
+   add('medium',`6000 теңгенің 1/4 бөлігі?`,1500,'6000/4=1500.');
+   add('hard',`Тауар 20% қымбаттап 3600 тг болды. Алғашқы бағасы?`,3000,'3600/1,2=3000.');
+   add('hard',`2, 4, 6, 8, 10, 12 сандарының орташа арифметикалық мәні?`,7,'Қосынды 42, саны 6: 42/6=7.');
+   add('hard',`Пойыз 240 км-ді 4 сағатта, 120 км-ді 2 сағатта жүрді. Орташа жылдамдық?`,60,'Барлық жол 360 км, уақыт 6 сағ.');
+   add('hard',`Бастапқы 8000 тг баға алдымен 10%, кейін тағы 10% арзандады. Соңғы баға?`,6480,'8000·0,9·0,9=6480.');
+   add('hard',`12 м × 8 м жердің 25%-ына гүл егілді. Гүлзар ауданы?`,24,'96·0,25=24 м².');
+   add('hard',`Сыныптың 40%-ы — 12 оқушы. Сыныпта барлығы неше оқушы?`,30,'12/0,4=30.');
+ }else{
+   add('easy',`f(x)=3x−4. f(5)=?`,11,'3·5−4=11.');
+   add('easy',`√144 = ?`,12,'12²=144.');
+   add('easy',`log₂8 = ?`,3,'2³=8.');
+   add('easy',`x²−5x+6=0. Түбірлер қосындысы?`,5,'Виет: −b/a=5.');
+   add('easy',`sin 30° = ?`,0.5,'sin30°=1/2.');
+   add('easy',`2⁴ = ?`,16,'2·2·2·2=16.');
+   add('medium',`x²−8x+15=0. Түбірлер көбейтіндісі?`,15,'Виет: c/a=15.');
+   add('medium',`log₃81 = ?`,4,'3⁴=81.');
+   add('medium',`f(x)=x²+2x. f(3)=?`,15,'9+6=15.');
+   add('medium',`f(x)=x². f′(4)=?`,8,'f′(x)=2x.');
+   add('medium',`Геометриялық прогрессия: 2, 6, 18, ... келесі мүшесі?`,54,'Еселігі 3.');
+   add('medium',`2x²−6x+4=0. Түбірлер қосындысы?`,3,'−b/a=6/2=3.');
+   add('hard',`f(x)=x³−2x. f′(3)=?`,25,'f′(x)=3x²−2; 27−2=25.');
+   add('hard',`log₂x=5. x=?`,32,'x=2⁵=32.');
+   add('hard',`x²−10x+21=0. Түбірлер айырмасының модулі?`,4,'Түбірлер 3 және 7, айырма модулі 4.');
+   add('hard',`Арифметикалық прогрессия: a₁=3, d=4. a₁₀=?`,39,'a₁₀=3+9·4=39.');
+   add('hard',`∫₀² 3x² dx = ?`,8,'Алғашқы функция x³, 2³−0³=8.');
+   add('hard',`2sin²30° + cos²60° = ?`,0.75,'2·(1/2)²+(1/2)²=3/4.');
+ }
+ return (level==='all'?levels:[level]).flatMap(l=>bank[l]);
+}
+</script><style>
+.topic-help{background:#eaf6f1;border-left:4px solid #16836f;padding:12px;margin:9px 0;border-radius:9px}.topic-card{background:#f5fafb;border:1px solid #cbdfe1;padding:12px;border-radius:12px;margin:9px 0}.dangertext{color:#a43c26;font-weight:700}.tutor{background:#fff7e3;padding:12px;border-radius:10px;margin:10px 0}.smallbtn{font-size:13px;padding:8px 11px}.leveltag{font-size:12px;color:#526e79}#weaknessReport .tile{margin-bottom:9px}
+</style><script>
+// Бөлімдер оқу бағдарламасына сәйкес бөлінген; әр бөлімде 3 деңгейден 6 тапсырма.
+const TOPICS={
+5:['Натурал сандар және амалдар','Жай бөлшектер','Ондық бөлшектер','Пайыз және шамалар','Өрнектер мен теңдеулер','Периметр мен аудан','Мәтінді есептер'],
+6:['Рационал сандар','Жай және ондық бөлшектер','Қатынас және пропорция','Масштаб','Теңдеулер','Координаталар','Геометриялық шамалар'],
+7:['Бүтін көрсеткішті дәреже','Бірмүшелер мен көпмүшелер','Қысқаша көбейту формулалары','Сызықтық теңдеулер','Функция және график','Алгебралық өрнектер','Мәтінді есептер'],
+8:['Квадрат түбірлер','Квадрат теңдеулер','Виет теоремасы','Квадраттық функция','Рационал өрнектер','Теңсіздіктер','Мәтінді есептер'],
+9:['Квадраттық теңсіздіктер','Теңдеулер жүйесі','Арифметикалық прогрессия','Геометриялық прогрессия','Тригонометрия элементтері','Ықтималдық','Мәтінді есептер'],
+10:['Тригонометриялық функциялар','Тригонометриялық теңдеулер','Функциялар және графиктер','Дәрежелер мен түбірлер','Көрсеткіштік функция','Ықтималдық','Мәтінді есептер'],
+11:['Көрсеткіштік теңдеулер','Логарифмдер','Туынды','Интеграл','Иррационал теңдеулер','Функцияны зерттеу','ҰБТ аралас есептері']};
+const LIT_TOPICS=['Пайыз және жеңілдік','Статистика','Қозғалыс есептері','Сауда және бюджет','Геометрия өмірде','Кесте және деректер'];
+const PASS_TOPICS=['Функциялар','Логарифмдер','Туынды және интеграл','Квадрат теңдеулер','Тригонометрия','Прогрессиялар'];
+function topicList(){const c=document.getElementById('course').value,g=+document.getElementById('grade').value;return c==='diagnostic'?TOPICS[g]:c==='literacy'?LIT_TOPICS:PASS_TOPICS}
+function updateTopics(){let sel=document.getElementById('topicSelect'),old=sel.value;sel.innerHTML='<option value="all">Барлық тақырыптар</option>'+topicList().map((t,i)=>`<option value="${i}">${escapeHtml(t)}</option>`).join('');if([...sel.options].some(o=>o.value===old))sel.value=old;}
+document.getElementById('grade').addEventListener('change',updateTopics);document.getElementById('course').addEventListener('change',updateTopics);updateTopics();
+// Тақырыпқа арналған сұрақтар сандық параметрлермен құрастырылады.
+function topicQuestions(course,grade,topic,level){
+ const t=topicList()[topic],diff={easy:1,medium:2,hard:3}[level];let out=[];
+ for(let i=0;i<6;i++){
+ let n=i+1,a=diff+n,b=diff*2+n,q,ans,steps;
+ if(course==='literacy'){
+  if(topic===0){let price=500+100*n,rate=diff*5+5;ans=price*(100-rate)/100;q=`${price} тг тауар ${rate}% арзандады. Жаңа баға (тг)?`;steps=`1) Жеңілдік: ${price}×${rate}/100=${price*rate/100}. 2) Соңғы баға: ${price}−${price*rate/100}=${ans}.`}
+  else if(topic===1){ans=2*n+diff+2;q=`${ans-2}, ${ans}, ${ans}, ${ans+2}, ${ans+4} деректерінің модасы?`;steps=`Мода — ең жиі кездесетін сан. ${ans} екі рет кездеседі.`}
+  else if(topic===2){ans=30+5*n;q=`Көлік ${ans*2} км жолды 2 сағатта жүрді. Жылдамдық (км/сағ)?`;steps=`v=s/t=${ans*2}/2=${ans}.`}
+  else if(topic===3){ans=(n+diff)*120;q=`Бір зат 120 тг. ${n+diff} заттың құны (тг)?`;steps=`120×${n+diff}=${ans}.`}
+  else if(topic===4){ans=(n+diff)*(n+3);q=`Тіктөртбұрыштың қабырғалары ${n+diff} м және ${n+3} м. Ауданы (м²)?`;steps=`S=a×b=${n+diff}×${n+3}=${ans}.`}
+  else {ans=n+diff+3;q=`Кестеде ${ans-2}, ${ans}, ${ans+2} мәндері берілген. Орташа арифметикалық мәні?`;steps=`(${ans-2}+${ans}+${ans+2})/3=${ans}.`}
+ }else if(course==='passport'||grade>=10){
+  let type=course==='passport'?topic:topic;
+  if((course==='passport'&&type===1)||(course==='diagnostic'&&t==='Логарифмдер')){let k=n+diff;ans=k;q=`log₂(${2**k}) = ?`;steps=`Логарифм анықтамасы: 2^${k}=${2**k}, сондықтан жауап ${k}.`}
+  else if((course==='passport'&&type===2)||(course==='diagnostic'&&t==='Туынды')){let k=n+diff;ans=2*k;q=`f(x)=x². f′(${k}) мәнін тап.`;steps=`1) f′(x)=2x. 2) f′(${k})=2×${k}=${ans}.`}
+  else if(t==='Интеграл'){let k=n+diff;ans=k*k;q=`∫₀^${k} 2x dx = ?`;steps=`Алғашқы функция x². [x²]₀^${k}=${k}²=${ans}.`}
+  else if(t==='Иррационал теңдеулер'){let k=n+diff;ans=k*k;q=`√x = ${k}. x = ?`;steps=`Екі жағын квадраттаймыз: x=${k}²=${ans}. Тексеру: √${ans}=${k}.`}
+  else if(t.includes('Тригонометр')||t==='Тригонометрия'){ans=diff%2?0.5:1;q=ans===0.5?'sin 30° мәні?':'sin²30° + cos²30° мәні?';steps=ans===0.5?'Бірлік шеңберден sin30°=1/2.':'Негізгі тепе-теңдік: sin²α+cos²α=1.'}
+  else if(t.includes('Көрсеткіш')||t.includes('Дәреже')){let k=n+diff;ans=k;q=`2^x = ${2**k}. x = ?`;steps=`${2**k}=2^${k}, сондықтан x=${k}.`}
+  else {let k=n+diff;ans=k*k;q=`f(x)=x². f(${k}) мәнін тап.`;steps=`x орнына ${k} қоямыз: ${k}²=${ans}.`}
+ }else if(grade===8){
+  if(topic===0){let k=n+diff;ans=k;q=`√${k*k} = ?`;steps=`${k}×${k}=${k*k}, демек √${k*k}=${k}.`}
+  else if(topic===1||topic===2){let r=n+diff,s=r+2;ans=topic===1?r:s+r;q=topic===1?`x²−${r+s}x+${r*s}=0. Кіші түбірі?`:`x²−${r+s}x+${r*s}=0. Түбірлер қосындысы?`;steps=`Виет теоремасы: x₁+x₂=${r+s}, x₁x₂=${r*s}. Түбірлер ${r} және ${s}. ${topic===1?'Кіші түбір '+r:'Қосынды '+(r+s)}.`}
+  else if(topic===3){let k=n+diff;ans=k*k-2*k+1;q=`y=x²−2x+1, x=${k}. y=?`;steps=`y=${k}²−2×${k}+1=${ans}.`}
+  else if(topic===4){let k=n+diff;ans=k+2;q=`(x²−4)/(x−2), x=${k+2} болса мәні?`;steps=`x²−4=(x−2)(x+2). Қысқартамыз: x+2=${ans}.` ;ans=k+4}
+  else if(topic===5){let k=n+diff;ans=k+1;q=`2x > ${2*k}. Ең кіші бүтін шешім?`;steps=`x>${k}. Ең кіші бүтін шешім ${ans}.`}
+  else {let k=n+diff;ans=k*(k+2);q=`Ұзындығы ${k+2} м, ені ${k} м алаңның ауданы?`;steps=`S=${k+2}×${k}=${ans}.`}
+ }else if(grade===9){
+  if(topic===2||topic===3){let k=n+diff;ans=topic===2?k+3:k*2;q=topic===2?`Арифметикалық прогрессия: ${k}, ${k+1}, ${k+2}, ... келесі мүше?`:`Геометриялық прогрессия: ${k/2}, ${k}, ... келесі мүше?`;steps=topic===2?`Айырымы 1, келесі мүше ${ans}.`:`Еселігі 2, келесі мүше ${ans}.`}
+  else if(topic===4){ans=0.5;q='sin 30° = ?';steps='sin30°=1/2=0.5.'}
+  else {let k=n+diff;ans=k;q=`x²−${2*k}x+${k*k}=0. Түбірі?`;steps=`(x−${k})²=0, сондықтан x=${k}.`}
+ }else if(grade===7){
+  if(topic===0){ans=2**(n+diff);q=`2^${n+diff} = ?`;steps=`2 санын ${n+diff} рет көбейтеміз: ${ans}.`}
+  else if(topic===2){let k=n+diff;ans=k*k;q=`(a+b)², a=${k-1}, b=1. Мәні?`;steps=`(a+b)²=a²+2ab+b²=${k}²=${ans}.`}
+  else {let k=n+diff;ans=k;q=`${diff+1}x + ${n} = ${(diff+1)*k+n}. x = ?`;steps=`${diff+1}x=${(diff+1)*k}, x=${k}.`}
+ }else{
+  let k=n+diff;
+  if(topic===1){ans=`${k+1}/${k+3}`;q=`${k}/${k+3} + 1/${k+3} = ?`;steps=`Бөлімдері бірдей: (${k}+1)/${k+3}=${ans}.`}
+  else if(topic===2&&grade===5){ans=(k+2)/10;q=`0,${k%10} + 0,2 = ?`;ans=((k%10)+2)/10;steps=`Ондық бөлшектерді разряд бойынша қосамыз: ${ans}.`}
+  else if(topic===3){ans=k*10;q=`${k*100} санының 10%-ы?`;steps=`${k*100}×0,1=${ans}.`}
+  else if(topic===5){ans=4*k;q=`Қабырғасы ${k} см шаршының периметрі?`;steps=`P=4a=4×${k}=${ans}.`}
+  else {ans=k;q=`x + ${n+2} = ${k+n+2}. x = ?`;steps=`x=${k+n+2}−${n+2}=${ans}.`}
+ }
+ out.push({...{topic:t,level},question:q,answer:String(ans),steps,options:makeQ(q,ans,steps)[2]});
+ }
+ return out;
+}
+let enhancedActive=[];
+function startQuiz(){
+ currentName=document.getElementById('studentName').value.trim();currentGrade=document.getElementById('grade').value;currentCourse=document.getElementById('course').value;
+ if(!currentName){alert('Алдымен аты-жөніңізді енгізіңіз');return}
+ if(currentCourse==='passport'&&currentGrade!=='11'){alert('Математикалық паспорт бағыты 11-сыныпқа арналған');return}
+ const chosen=document.getElementById('topicSelect').value,lev=document.getElementById('level').value,ls=lev==='all'?['easy','medium','hard']:[lev];
+ const ts=chosen==='all'?topicList().map((_,i)=>i):[+chosen];
+ enhancedActive=ts.flatMap(t=>ls.flatMap(l=>topicQuestions(currentCourse,+currentGrade,t,l)));
+ document.getElementById('quiz').classList.remove('hidden');document.getElementById('quizTitle').textContent=titles[currentCourse]+' · '+currentGrade+'-сынып · '+(chosen==='all'?'Барлық тақырыптар':topicList()[+chosen]);
+ document.getElementById('feedback').innerHTML='';
+ document.getElementById('questions').innerHTML=enhancedActive.map((q,i)=>`<div class="question"><span class="pill">${escapeHtml(q.topic)}</span> <span class="leveltag">${{easy:'Жеңіл',medium:'Орташа',hard:'Күрделі'}[q.level]}</span><p><b>${i+1}. ${escapeHtml(q.question)}</b></p><div class="options">${q.options.map((v,j)=>`<label><input type="radio" name="q${i}" value="${j}">${String.fromCharCode(65+j)}. ${escapeHtml(v)}</label>`).join('')}</div><button class="secondary smallbtn" onclick="showTutor(${i})">💡 Тьютордан көмек</button><div id="tutor${i}" class="hidden tutor"></div></div>`).join('');
+ document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+function showTutor(i){let q=enhancedActive[i],el=document.getElementById('tutor'+i);el.classList.toggle('hidden');el.innerHTML=`<b>Тьютор түсіндіреді:</b><p>${escapeHtml(q.steps)}</p><p class="muted">Бұл үлгіде тьютор — алдын ала дайындалған қадамдық түсіндірме, онлайн ЖИ емес.</p>`}
+function submitQuiz(){
+ let score=0,details=[],html='';for(let i=0;i<enhancedActive.length;i++){
+ let checked=document.querySelector(`input[name="q${i}"]:checked`);if(!checked){alert('Барлық сұраққа жауап беріңіз');return}
+ let q=enhancedActive[i],ok=String(q.options[+checked.value])===q.answer;if(ok)score++;
+ details.push({topic:q.topic,level:q.level,correct:ok});
+ html+=`<div class="topic-help"><b>${i+1}. ${escapeHtml(q.topic)} — ${ok?'✅ Дұрыс':'❌ Қате'}</b><p>Дұрыс жауап: <b>${escapeHtml(q.answer)}</b></p><b>Шығарылу жолы:</b> ${escapeHtml(q.steps)}</div>`;
+ }
+ let byTopic={};for(let d of details){byTopic[d.topic]??={correct:0,total:0};byTopic[d.topic].total++;if(d.correct)byTopic[d.topic].correct++}
+ let weak=Object.entries(byTopic).filter(([t,x])=>x.correct/x.total<0.6).map(([t])=>t);
+ let rows=readRecords();rows.push({name:currentName,grade:currentGrade,course:currentCourse,score,total:enhancedActive.length,level:document.getElementById('level').value,topic:document.getElementById('topicSelect').value==='all'?'Барлық тақырыптар':topicList()[+document.getElementById('topicSelect').value],weak,details,date:new Date().toLocaleString('kk-KZ')});localStorage.setItem('mathPassportResults',JSON.stringify(rows));
+ document.getElementById('feedback').innerHTML=`<div class="result"><h3>Нәтиже: ${score}/${enhancedActive.length} (${Math.round(score/enhancedActive.length*100)}%)</h3><p>${weak.length?'Қайталау ұсынылады: '+weak.map(escapeHtml).join(', '):'Жақсы нәтиже! Қиналған тақырып анықталмады.'}</p>${html}</div>`;renderHistory();
+}
+function renderTeacher(){let r=readRecords();document.getElementById('stats').innerHTML=`<p class="pill">Тексеру саны: ${r.length}</p> <p class="pill">Оқушы: ${new Set(r.map(x=>x.name+'|'+x.grade)).size}</p>`;
+ let groups={};for(let x of r){let key=x.name+'|'+x.grade;if(!groups[key])groups[key]={name:x.name,grade:x.grade,weak:{},count:0};groups[key].count++;for(let d of x.details||[]){let z=groups[key].weak[d.topic]??={total:0,correct:0};z.total++;if(d.correct)z.correct++}}
+ document.getElementById('weaknessReport').innerHTML=Object.values(groups).length?Object.values(groups).map(x=>{let w=Object.entries(x.weak).filter(([k,v])=>v.correct/v.total<0.6);return `<div class="topic-card"><b>${escapeHtml(x.name)} · ${escapeHtml(x.grade)}-сынып</b> <span class="muted">(${x.count} тексеру)</span><p>${w.length?w.map(([k,v])=>`<span class="dangertext">${escapeHtml(k)}: ${Math.round(v.correct/v.total*100)}%</span>`).join(' · '):'Қиындық анықталмады немесе бұрынғы жазбада тақырып дерегі жоқ.'}</p></div>`}).join(''):'<p class="muted">Әзірге нәтиже жоқ.</p>';
+ document.getElementById('records').innerHTML=r.length?r.slice().reverse().map(x=>`<tr><td>${escapeHtml(x.name)}</td><td>${escapeHtml(x.grade)}</td><td>${escapeHtml(titles[x.course]||x.course)}</td><td>${escapeHtml(x.topic||'—')}</td><td>${({easy:'Жеңіл',medium:'Орташа',hard:'Күрделі',all:'Барлығы'})[x.level]||'—'}</td><td>${x.score}/${x.total}</td><td>${(x.weak||[]).map(escapeHtml).join(', ')||'—'}</td><td>${escapeHtml(x.date)}</td></tr>`).join(''):'<tr><td colspan="8">Әзірше нәтиже жоқ</td></tr>';
+}
+function exportCSV(){let r=readRecords(),lines=[['Оқушы','Сынып','Бағыт','Тақырып','Деңгей','Дұрыс','Барлығы','Қиналған тақырыптар','Күні'],...r.map(x=>[x.name,x.grade,titles[x.course]||x.course,x.topic||'',x.level||'',x.score,x.total,(x.weak||[]).join(', '),x.date])];let csv='\ufeff'+lines.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='math_passport_topic_results.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+</script>
+<script>
+let sharedResults=[];let teacherAuthenticated=false;
+const legacySubmitQuiz=submitQuiz;
+submitQuiz=function(){
+ const oldCount=readRecords().length;
+ legacySubmitQuiz();
+ const rows=readRecords();
+ if(rows.length<=oldCount)return;
+ const record=rows[rows.length-1];
+ const box=document.getElementById('feedback');
+ const note=document.createElement('p');note.className='muted';note.textContent='Нәтиже мұғалімге жіберілуде...';box.appendChild(note);
+ fetch('/api/results',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(record)})
+ .then(async r=>{if(!r.ok)throw Error('HTTP '+r.status);note.textContent='✅ Нәтиже мұғалім кабинетіне жіберілді.'})
+ .catch(()=>{note.textContent='⚠️ Нәтиже тек осы браузерде сақталды. Серверге жіберілмеді. Интернетті/серверді тексеріңіз.'});
+};
+unlockTeacher=async function(){
+ const password=document.getElementById('pin').value;
+ try{
+ const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+ if(!r.ok){alert('Құпиясөз қате');return}
+ teacherAuthenticated=true;document.getElementById('teacherArea').classList.remove('hidden');
+ await refreshTeacher();
+ }catch(e){alert('Серверге қосылу мүмкін емес. Сайтты сервер арқылы ашыңыз.')}
+};
+const originalReadRecords=readRecords;
+readRecords=function(){return teacherAuthenticated&&document.getElementById('teacher').classList.contains('hidden')===false?sharedResults:originalReadRecords()};
+async function refreshTeacher(){
+ try{const r=await fetch('/api/results');if(!r.ok)throw Error('Кіру қажет');sharedResults=await r.json();renderTeacher()}
+ catch(e){alert('Ортақ нәтижелерді жүктеу мүмкін болмады: '+e.message)}
+}
+function exportSharedCSV(){
+ const r=sharedResults,lines=[['Оқушы','Сынып','Бағыт','Тақырып','Деңгей','Дұрыс','Барлығы','Қиналған тақырыптар','Күні'],...r.map(x=>[x.name,x.grade,titles[x.course]||x.course,x.topic||'',x.level||'',x.score,x.total,(x.weak||[]).join(', '),x.date||x.received_at||''])];
+ const csv='\ufeff'+lines.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='math_passport_shared_results.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)
+}
+</script>
+</body></html>
