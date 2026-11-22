@@ -33,7 +33,10 @@ class Handler(BaseHTTPRequestHandler):
   path=self.path.split('?')[0]
   if path in ('/','/index.html'):
    return self.send(200,(ROOT/'index.html').read_bytes(),'text/html; charset=utf-8')
-  if path=='/passport_questions.json':return self.send(200,(ROOT/'passport_questions.json').read_bytes(),'application/json; charset=utf-8')
+  if path in ('/passport_questions.json','/diagnostic_questions.json','/literacy_questions.json'):
+   filename=path.lstrip('/')
+   try:return self.send(200,(ROOT/filename).read_bytes(),'application/json; charset=utf-8')
+   except FileNotFoundError:return self.send(404,{'error':'Question bank not found'})
   if path=='/api/health':return self.send(200,{'ok':True})
   if path=='/api/results':
    if not self.auth():return self.send(401,{'error':'Login required'})
